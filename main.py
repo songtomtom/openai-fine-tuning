@@ -64,8 +64,8 @@ while True:
         elif status == "cancelled":
             print("Job was cancelled.")
             exit()
-        elif status == "running":
-            pass  # Job is still running, just wait and check again.
+        elif status in ["queued", "running"]:
+            pass  # Job is still in progress, just wait and check again.
         else:
             print(f"Unknown status: {status}. Exiting.")
             exit()

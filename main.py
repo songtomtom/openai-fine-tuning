@@ -2,16 +2,17 @@ import openai
 import time
 import sys
 
-if len(sys.argv) != 2:
-    print("Usage: python script_name.py <OPENAI_API_KEY>")
+if len(sys.argv) < 2:
+    print("Usage: python script_name.py <OPENAI_API_KEY> [MODEL_NAME]")
     exit()
 
 openai.api_key = sys.argv[1]
+model_name = sys.argv[2] if len(sys.argv) > 2 else "gpt-3.5-turbo-0613"
 
 # 파일 업로드
 try:
     file = openai.File.create(
-        file=open("mydata.jsonl", "rb"),
+        file=open("mydata2.jsonl", "rb"),
         purpose='fine-tune'
     )
     print(f'file = {file}')
@@ -40,7 +41,7 @@ while True:
 
 # 미세 조정 작업 시작
 try:
-    response = openai.FineTuningJob.create(training_file=file_id, model="gpt-3.5-turbo")
+    response = openai.FineTuningJob.create(training_file=file_id, model=model_name)
     print(f'response = {response}')
 except Exception as e:
     print(f"Error starting fine-tuning job: {e}")
